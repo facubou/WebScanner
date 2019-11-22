@@ -24,6 +24,6 @@ for i in entrada:
   export = export + salida + "\n"
 
 
-salida3 = open("salida.txt", "w")
-salida3.write(str(export))
-salida3.close()
+w = open("salida.txt", "w")
+w.write(str(export))
+w.close()
