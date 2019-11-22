@@ -1,25 +1,29 @@
-#List IP: Reports, Hostname, Domain, etc from AbuseIPDB
 from bs4 import BeautifulSoup
 import requests
-import re 
+import re
+salida = ""
+entrada = open("bulk.txt", "r")
+export = ""
 
-dominio = 'https://www.abuseipdb.com/check/107.181.187.5'
+for i in entrada:
+  dominio = 'https://www.abuseipdb.com/check/' + i
+  dominio = dominio.rstrip('\n')
+  #print (dominio)
+  webResponse = requests.get(dominio, timeout=15)
+  contenido = BeautifulSoup(webResponse.content, "html.parser")
+  contenido = str(contenido).replace("\n", "")
+  porcentajeRiego = re.findall("is <b>(.*?)%", contenido)
+  cantidadReportes = re.findall("reported <b>(.*?)<", contenido)
+  hostname = re.findall("Hostname\(s\)<\/th><td>(.*?)\s", contenido)
+  dominio = re.findall("Domain\sName<\/th><td>(.*?)<", contenido)
+  pais = re.findall(r'src="\/img\/blank.gif">(.*?)<\/img>', contenido)
+  #porcentajeRiego = str(porcentajeRiego).replace("['", "")
+  #linea = str(contenido.find_all(['b', '%']))
+  salida = (str(i) + "," + str(porcentajeRiego) + "," + str(cantidadReportes) + "," + str(hostname) + "," + str(dominio) + "," + str(pais)) 
+  salida = salida.replace('\n', "")
+  export = export + salida + "\n"
 
-webResponse = requests.get(dominio, timeout=5)
 
-contenido = BeautifulSoup(webResponse.content, "html.parser")
-
-contenido = str(contenido).replace("\n", "")
-
-porcentajeRiesgo = re.findall("is <b>(.*?)%", str(contenido))
-CantidadReportes = re.findall("reported <b>(.*?)<", str(contenido))
-hostname = re.findall("Hostname(s)</th><td>(.*?)\s<", str(contenido))
-
-print(porcentajeRiesgo, CantidadReportes, hostname)
-
-'''
-#print(contenido)
-
-contenido2 = str(contenido).replace("\n", "")
-w = open("salida4.txt", "w")
-w.write(str(contenido2))'''
+salida3 = open("salida.txt", "w")
+salida3.write(str(export))
+salida3.close()
