@@ -32,7 +32,6 @@ for i in entrada:
   export = export + salida + "\n"
   contador = contador + 1
   print ("Completado: " + str(contador) + " de " + str(conteoTotal))
-  #for
 
 
 salida3 = open("salida.txt", "w")
