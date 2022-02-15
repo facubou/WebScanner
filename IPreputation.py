@@ -7,17 +7,24 @@ export = ""
 contador = 0
 conteoTotal = 0
 
+header = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+   'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+   'Accept-Encoding': 'none',
+   'Accept-Language': 'en-US,en;q=0.8',
+   'Connection': 'keep-alive'}
+
 for j in entrada:
   conteoTotal = conteoTotal + 1
 
 print(conteoTotal)
-print(entrada)
+#print(entrada)
 
 for i in entrada:
   dominio = 'https://www.abuseipdb.com/check/' + i
   dominio = dominio.rstrip('\n')
   print (dominio)
-  webResponse = requests.get(dominio, timeout=15)
+  webResponse = requests.get(dominio, headers=header)
   contenido = BeautifulSoup(webResponse.content, "html.parser")
   contenido = str(contenido).replace("\n", "")
   porcentajeRiego = re.findall("is <b>(.*?)%", contenido)
