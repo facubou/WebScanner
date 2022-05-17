@@ -14,11 +14,7 @@ header = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHT
    'Accept-Language': 'en-US,en;q=0.8',
    'Connection': 'keep-alive'}
 
-#for j in entrada:
-#  conteoTotal = conteoTotal + 1
-
 print(conteoTotal)
-#print(entrada)
 
 for i in entrada:
   dominio = 'https://www.abuseipdb.com/check/' + i
